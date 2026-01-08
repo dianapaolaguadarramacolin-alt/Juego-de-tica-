@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Juego de Ética</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .juego {
+            background: white;
+            padding: 20px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #3498db;
+            color: white;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        #resultado {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="juego">
+    <h1>Decisiones Éticas</h1>
+    <p id="pregunta"></p>
+
+    <button onclick="responder(0)" id="btn0"></button>
+    <button onclick="responder(1)" id="btn1"></button>
+
+    <p id="resultado"></p>
+    <p id="puntaje"></p>
+</div>
+
+<script>
+    const preguntas = [
+        {
+            texto: "Encuentras una cartera con dinero. ¿Qué haces?",
+            opciones: ["Quedártela", "Devolverla al dueño"],
+            correcta: 1
+        },
+        {
+            texto: "Ves a un compañero copiar en un examen",
+            opciones: ["Lo ignoras", "Hablas con un maestro"],
+            correcta: 1
+        },
+        {
+            texto: "Te dan cambio de más en una tienda",
+            opciones: ["Lo devuelves", "Te lo quedas"],
+            correcta: 0
+        }
+    ];
+
+    let indice = 0;
+    let puntos = 0;
+
+    function mostrarPregunta() {
+        document.getElementById("pregunta").textContent = preguntas[indice].texto;
+        document.getElementById("btn0").textContent = preguntas[indice].opciones[0];
+        document.getElementById("btn1").textContent = preguntas[indice].opciones[1];
+        document.getElementById("resultado").textContent = "";
+        document.getElementById("puntaje").textContent = "Puntaje: " + puntos;
+    }
+
+    function responder(opcion) {
+        if (opcion === preguntas[indice].correcta) {
+            puntos++;
+            document.getElementById("resultado").textContent = "✅ Decisión ética correcta";
+        } else {
+            document.getElementById("resultado").textContent = "❌ Decisión poco ética";
+        }
+
+        indice++;
+
+        setTimeout(() => {
+            if (indice < preguntas.length) {
+                mostrarPregunta();
+            } else {
+                document.querySelector(".juego").innerHTML = `
+                    <h1>Juego terminado</h1>
+                    <p>Tu puntaje final fue: ${puntos}/${preguntas.length}</p>
+                    <button onclick="location.reload()">Jugar otra vez</button>
+                `;
+            }
+        }, 1000);
+    }
+
+    mostrarPregunta();
+</script>
+
+</body>
+</html>
